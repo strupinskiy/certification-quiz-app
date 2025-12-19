@@ -1,7 +1,5 @@
 package com.leverx.certificationquizapp.strategy;
 
-import com.leverx.certificationquizapp.controller.QuizController;
-
 public interface QuizStrategy {
     boolean shouldShowIntermediaryFeedback();
 

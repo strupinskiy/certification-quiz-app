@@ -58,7 +58,7 @@ public class QuizController {
         if (strategy.shouldShowIntermediaryFeedback() && !isShowingErrors) {
             highlightErrors();
             isShowingErrors = true;
-            nextBtn.setText("Понятно, далее");
+            nextBtn.setText("Ok, got it.");
             return;
         }
 
