@@ -1,0 +1,214 @@
+Q: 1. Which actions are executed in Cloud Foundry under the Deploy & Execute phase when you run an application? Note: There are 2 correct answers to this question.
+- Fueling generic runtimes to serve recurring tasks automatically
+- Integrating the data with other SAP systems
+- Declaratively capturing domain knowledge in CDS models
+- Maximizing boilerplate code to real custom logic
+A: 0,1
+
+Q: 2. You develop custom SAP S/4HANA side-by-side extensions. For which development objects can you enable OData services? Note: There are 2 correct answers to this question.
+- SAP-delivered business objects
+- Custom CDS views
+- Custom forms
+- Custom business objects
+A: 0,1
+
+Q: 3. Which of the following tools are required to build Spring Boot applications using the SAP Cloud SDK? Note: There are 2 correct answers to this question.
+- Java SE Development Kit 8
+- Apache Maven version 3.5 or above
+- SAP Mobile Services (MDK)
+- Spring Initializer
+A: 0,1
+
+Q: 4. Why are extensions on top of SAP S/4HANA Cloud NOT affected by the quarterly update cycle of SAP S/4HANA Cloud?
+- The Virtual Data Model of SAP S/4HANA Cloud remains unchanged.
+- The extension application runs only on SAP Business Technology Platform.
+- The public interfaces of SAP S/4HANA represent a stable contract across the versions of SAP S/4HANA Cloud.
+- SAP provides maintenance agreements to fix any extension issues.
+A: 2
+
+Q: 5. You have set up a pipeline in the SAP Continuous Integration and Delivery service with automated deployment. A build was initiated and failed. What do you check to find out which step of the pipeline failed?
+- The webhook event receiver
+- The webhook of your version control system
+- The stages in the config.yml in the pipeline folder
+- The stages of the failed job run
+A: 3
+
+Q: 6. What is a necessary step to implement a custom error handler in the CAP SDK for Node.js?
+- Register the error handler function for the before phase of the error.
+- Catch exceptions during a CRUD operation.
+- Register the error handler function for the on phase of the error.
+- Write a custom Node.js package.
+A: 2
+
+Q: 7. What are some prerequisites for functions to receive events from Kyma Eventing? Note: There are 2 correct answers to this question.
+- An API Rule with Oathkeeper AccessRules for GET-Requests
+- The request to the function contains the event context
+- A Subscription CR.
+- A CloudEvents specification
+A: 2,3
+
+Q: 8. In SAP Build Process Automation, what is a policy?
+- A guide to business process mapping
+- A collection of decisions
+- A basis for making business rules
+- A collection of business rules
+A: 3
+
+Q: 9. You have deployed a workload through a Kubernetes Deployment to SAP BTP, Kyma runtime. What must you do to expose the workload to the public internet? Note: There are 3 correct answers to this question.
+- Add a readiness probe for your workload.
+- Create an API Rule CR.
+- Add a custom VirtualService CR to secure the service.
+- Configure rules and accessStrategies.
+- Create a service to group your pods.
+A: 1,3,4
+
+Q: 10. Which method can you use to collect error messages with high severity and return them to the caller in the request-response?
+- req.reply
+- req.notify
+- req.reject
+- req.error
+A: 3
+
+Q: 11. What is a rule of thumb for when to use namespaces in your models?
+- When your app rarely exposes services
+- When your models are reused in other projects
+- When your model names are unique
+A: 1
+
+Q: 12. What are the main features and capabilities of the app router? Note: There are 3 correct answers to this question.
+- It can serve static content such as web pages, SAPUI5 or other client side code.
+- It manages the authentication flows for the application.
+- It acts as an authorization server.
+- It downloads all necessary libraries.
+- It is the central entry point of the application.
+A: 0,1,4
+
+Q: 13. When you create an API Rule for a service, what is created automatically?
+- A Helm Chart
+- An Istio VirtualService
+- A Kubernetes Deployment
+- A Kubernetes Service
+A: 1
+
+Q: 14. Which identifier is used by the XSUAA service to distinguish applications and scopes?
+- xsappname
+- xs-security
+- VCAP_SERVICES
+- tenant-mode
+A: 0
+
+Q: 15. What are some characteristics of YAML files? Note: There are 2 correct answers to this question.
+- YAML files can be used as configuration files.
+- YAML files are also valid JSON files.
+- YAML files are based on XML.
+- YAML files rely on correct indentation.
+A: 0,3
+
+Q: 16. You initialize a new CAP project with initial project structure using a generator in SAP Business Application Studio. What are some of the default elements being created? Note: There are 2 correct answers to this question.
+- file manifest.yml
+- file package.json
+- folder/approuter
+- folder /app
+A: 1,3
+
+Q: 17. What does SAP Fiori elements use to generate the UI? Note: There are 2 correct answers to this question.
+- Custom UI logic
+- Annotations in the OData service
+- The entity definition of the OData service
+- Authorizations in the OData service
+A: 1,2
+
+Q: 18. You want a service to react to a specific event. What can you specify as <phase> in the statement srv. <Phase> (<event>)? Note: There are 2 correct answers to this question.
+- end
+- begin
+- after
+- before
+A: 2,3
+
+Q: 19. In SAP Fiori, how are drafts used? Note: There are 2 correct answers to this question.
+- To prevent data loss in case an app terminates unexpectedly
+- To enable empty states of apps
+- To enable responsiveness of apps
+- To prevent an object being edited by multiple users concurrently
+A: 0,3
+
+Q: 20. During application development, what are some principles of dealing with application errors? Note: There are 2 correct answers to this question.
+- Use try/catch blocks sparingly
+- Hide errors and continue silently
+- Use as many try/catch blocks as possible
+- Log unexpected errors
+A: 0,3
+
+Q: 21. Into which environment does the Test step in a CI/CD job allow you to deploy your application?
+- Mobile Services
+- Private server
+- Local workspace
+- Cloud Foundry
+A: 3
+
+Q: 22. You develop an application using the Cloud Foundry environment. What are some steps to restrict access to this application? Note: There are 2 correct answers to this question.
+- Set the Scopes element to the required scope name in the xs-app.json file.
+- Set the role-name attribute of the Security-role element in the web.xml file to the required role template name.
+- Define the role template name in the role-templates element of the xs-security.json file.
+- Set the Scopes element to the required scope name in the xs-security.json file.
+A: 2,3
+
+Q: 23. What are some benefits of using Forms in SAP Build Process Automation? Note: There are 2 correct answers to this question.
+- Streamline business process approvals easily
+- Create documents for processes easily
+- Create an interactive Ul easily
+- Create and share email templates easily
+A: 0,2
+
+Q: 24. What are some principles of continuous integration? Note: There are 2 correct answers to this question.
+- Automated tests
+- Automated deployment to the productive system
+- Automated builds
+- Automated code change pushes
+A: 0,2
+
+Q: 25. Which configuration steps are necessary to set process conditions in SAP Build Process Automation? Note: There are 3 correct answers to this question.
+- Define If/Else criteria
+- Map condition input to process content
+- Add environment variables
+- Define flow for different conditional paths
+- Add a condition to the process
+A: 0,3,4
+
+Q: 26. What are the benefits of using Side-by-Side Extensibility? Note: There are 3 correct answers to this question.
+- It can be implemented in the same software stack as the extended application.
+- It integrates with other cloud/non-cloud solutions when using SAP Business Technology Platform Integration services.
+- It uses a complete development platform for creating extension applications.
+- It provides support for hybrid scenarios.
+- It uses In-App tools to adapt the standard UI.
+A: 1,2,3
+
+Q: 27. Which of the following are benefits of using the OData Virtual Data Model of the SAP Cloud SDK? Note: There are 3 correct answers to this question.
+- Commonly used SQL query technology
+- Easy access to create, update, and delete operations
+- Type safety for functions
+- Auto-completion of function names and properties
+- Database procedures provided out of the box
+A: 1,2,3
+
+Q: 28. According to SAP CAP best practices, which error types should you NOT catch? Note: There are 2 correct answers to this question.
+- Programming errors
+- Rejections of promises
+- Runtime errors
+- Unexpected errors
+A: 0,3
+
+Q: 29. What are tasks of the approuter? Note: There are 3 correct answers to this question.
+- Routing requests from the web browser to the provider of the UI service.
+- Routing requests from the application to the SAP Launchpad service.
+- Authorizing users for the CAP service and the provider of the UI service.
+- Routing requests from the web browser to the CAP service.
+- Forwarding user requests to the XSUAA service for authentication and authorization.
+A: 0,3,4
+
+Q: 30. Which of the following can be used to implement side-by-side extensions in the Cloud Foundry environment of SAP Business Technology Platform? Note: There are 2 correct answers to this question.
+- ABAP
+- Java
+- Node.
+- js ActionScript
+A: 1,2

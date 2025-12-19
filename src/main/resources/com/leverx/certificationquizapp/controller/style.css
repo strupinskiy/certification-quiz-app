@@ -1,0 +1,70 @@
+.root {
+    -fx-background-color: #fcfcfc;
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+#questionLabel {
+    -fx-text-fill: #2c3e50;
+    -fx-line-spacing: 5px;
+}
+
+#optionsContainer {
+    -fx-padding: 10px;
+}
+
+.check-box, .radio-button {
+    -fx-text-fill: #34495e;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+}
+
+.check-box:hover, .radio-button:hover {
+    -fx-background-color: #f0f0f0;
+    -fx-background-radius: 5px;
+}
+
+.button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+    -fx-padding: 8px 20px;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #2980b9;
+}
+
+.button:disabled {
+    -fx-opacity: 0.5;
+    -fx-background-color: #bdc3c7;
+}
+
+.button-secondary {
+    -fx-background-color: #ecf0f1;
+    -fx-text-fill: #7f8c8d;
+    -fx-border-color: #bdc3c7;
+    -fx-border-radius: 5px;
+}
+
+.button-secondary:hover {
+    -fx-background-color: #dfe6e9;
+}
+
+.answer-wrong {
+    -fx-text-fill: #e74c3c !important;
+    -fx-font-weight: bold;
+}
+
+.answer-right {
+    -fx-text-fill: #27ae60 !important;
+    -fx-font-weight: bold;
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+    -fx-border-color: #dcdde1;
+    -fx-border-radius: 5px;
+}

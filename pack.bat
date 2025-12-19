@@ -1,0 +1,11 @@
+jpackage --type exe ^
+    --dest target/installer ^
+    --name "CertificationQuiz" ^
+    --module com.leverx.certificationquizapp/com.leverx.certificationquizapp.CertificationQuizApp ^
+    --runtime-image target/certification-quiz-app ^
+    --win-dir-chooser  ^
+    --win-shortcut ^
+    --win-menu ^
+    --vendor "LeverX" ^
+    --description "Certification Quiz Offline App" ^
+    --icon src/main/resources/com/leverx/certificationquizapp/icon.png
