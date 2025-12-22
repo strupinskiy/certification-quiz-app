@@ -18,4 +18,9 @@ public class TrainQuizStrategy implements QuizStrategy {
     public String getProgressStatus(int currentIndex, int totalCount) {
         return "Train mode: questions " + (currentIndex + 1) + " from " + totalCount;
     }
+
+    @Override
+    public String getModeName() {
+        return "Training";
+    }
 }

@@ -18,4 +18,9 @@ public class ExamQuizStrategy implements QuizStrategy {
     public String getProgressStatus(int currentIndex, int totalCount) {
         return "Exam: questions " + (currentIndex + 1) + " from " + totalCount;
     }
+
+    @Override
+    public String getModeName() {
+        return "Exam";
+    }
 }

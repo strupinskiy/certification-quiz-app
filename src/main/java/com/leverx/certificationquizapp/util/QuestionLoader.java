@@ -1,6 +1,8 @@
 package com.leverx.certificationquizapp.util;
 
 import com.leverx.certificationquizapp.model.Question;
+import javafx.stage.FileChooser;
+import javafx.stage.Window;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -14,21 +16,31 @@ public class QuestionLoader {
     private static final String ANSWER_PREFIX = "A:";
     private static final String OPTION_PREFIX = "-";
 
-    public List<Question> loadQuestionsFromFile(File file) throws IOException {
-        List<String> lines = Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
+    final static String QUESTIONS_FILE_PATH = "/com/leverx/certificationquizapp/data/quiz.txt";
+
+    public static List<Question> loadQuestionsFromFile(Window window) throws IOException {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
+
+        File selectedFile = fileChooser.showOpenDialog(window);
+
+        if (selectedFile == null) {
+            throw new IOException();
+        }
+        List<String> lines = Files.readAllLines(selectedFile.toPath(), StandardCharsets.UTF_8);
         return parseLines(lines);
     }
 
-    public List<Question> loadQuestionsFromResource(String path) throws Exception {
-        try (InputStream is = getClass().getResourceAsStream(path)) {
-            if (is == null) throw new RuntimeException("File not found: " + path);
+    public static List<Question> loadQuestionsFromResource() throws Exception {
+        try (InputStream is = QuestionLoader.class.getResourceAsStream(QUESTIONS_FILE_PATH)) {
+            if (is == null) throw new RuntimeException("File not found: " + QUESTIONS_FILE_PATH);
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
                 return parseLines(reader.lines().collect(Collectors.toList()));
             }
         }
     }
 
-    public List<Question> parseLines(List<String> lines) {
+    public static List<Question> parseLines(List<String> lines) {
         List<Question> questions = new ArrayList<>();
         QuestionBuilder builder = new QuestionBuilder();
 
@@ -60,14 +72,14 @@ public class QuestionLoader {
 
     private static String parseQuestionText(String line) {
         String text = line.substring(QUESTION_PREFIX.length()).trim();
-        return text.replaceFirst("^\\s*\\d+\\.\\s*", ""); // Удаляем "1. ", "2. "
+        return text.replaceFirst("^\\s*\\d+\\.\\s*", "");
     }
 
     private static Set<Integer> parseCorrectAnswers(String line) {
         String answersStr = line.substring(ANSWER_PREFIX.length()).trim();
         return Arrays.stream(answersStr.split(","))
                 .map(String::trim)
-                .filter(s -> s.matches("\\d+")) // Проверяем, что это число
+                .filter(s -> s.matches("\\d+"))
                 .map(Integer::parseInt)
                 .collect(Collectors.toSet());
     }
