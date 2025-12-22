@@ -8,19 +8,24 @@ import com.leverx.certificationquizapp.util.QuestionLoader;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class HomeController {
 
     @FXML
     private Label statusLabel;
+
+    @FXML
+    private CheckBox randomOrderCheckBox;
 
     @FXML
     private VBox quizModesVBox;
@@ -60,28 +65,40 @@ public class HomeController {
         }
     }
 
+    private void startQuiz(QuizStrategy strategy) {
+        if (questions == null || questions.isEmpty()) return;
+
+        List<Question> questionsToUse = new ArrayList<>(questions);
+
+        if (randomOrderCheckBox.isSelected()) {
+            Collections.shuffle(questionsToUse);
+        }
+
+        try {
+            switchToQuizScene(questionsToUse, strategy);
+        } catch (Exception e) {
+            statusLabel.setText("Error while quiz start");
+        }
+    }
+
     @FXML
     private void onSelectExamMode() {
-        switchToQuizScene(new ExamQuizStrategy());
+        startQuiz(new ExamQuizStrategy());
     }
 
     @FXML
     private void onSelectTrainMode() {
-        switchToQuizScene(new TrainQuizStrategy());
+        startQuiz(new TrainQuizStrategy());
     }
 
-    private void switchToQuizScene(QuizStrategy strategy) {
+    private void switchToQuizScene(List<Question> questions, QuizStrategy strategy) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("quiz-view.fxml"));
-        try {
-            Scene scene = new Scene(fxmlLoader.load());
+        Scene scene = new Scene(fxmlLoader.load());
 
-            QuizController quizController = fxmlLoader.getController();
-            quizController.initData(questions, strategy);
+        QuizController quizController = fxmlLoader.getController();
+        quizController.initData(questions, strategy);
 
-            Stage stage = (Stage) statusLabel.getScene().getWindow();
-            stage.setScene(scene);
-        } catch (IOException e) {
-            statusLabel.setText("Error while new stage loading");
-        }
+        Stage stage = (Stage) statusLabel.getScene().getWindow();
+        stage.setScene(scene);
     }
 }

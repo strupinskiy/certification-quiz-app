@@ -35,6 +35,9 @@
 
         <Button text="Exam mode" onAction="#onSelectExamMode"
                 prefWidth="250.0" style="-fx-padding: 10;"/>
+
+        <CheckBox fx:id="randomOrderCheckBox" text="Shuffle Questions?"
+                  style="-fx-font-size: 12px; -fx-text-fill: #333333;"/>
     </VBox>
 
 
