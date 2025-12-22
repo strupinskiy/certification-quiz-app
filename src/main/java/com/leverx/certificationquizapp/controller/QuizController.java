@@ -166,7 +166,6 @@ public class QuizController {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm");
         alert.setHeaderText("Want to exit?");
-        alert.setContentText("Current progress will be lost.");
 
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
