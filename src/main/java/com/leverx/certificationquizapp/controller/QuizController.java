@@ -2,6 +2,7 @@ package com.leverx.certificationquizapp.controller;
 
 import com.leverx.certificationquizapp.logic.QuizEngine;
 import com.leverx.certificationquizapp.model.Question;
+import com.leverx.certificationquizapp.model.QuizResult;
 import com.leverx.certificationquizapp.strategy.QuizStrategy;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
@@ -14,9 +15,14 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import static com.leverx.certificationquizapp.util.ResultsLoader.loadLastNameFromResults;
+import static com.leverx.certificationquizapp.util.ResultsLoader.saveResultToFile;
 
 public class QuizController {
 
@@ -43,7 +49,7 @@ public class QuizController {
 
     private Boolean isGameOver;
 
-    public void initData(List<Question> questions, QuizStrategy strategy) {
+    void initData(List<Question> questions, QuizStrategy strategy) {
         this.strategy = strategy;
         this.engine = new QuizEngine(questions);
         isGameOver = false;
@@ -136,17 +142,27 @@ public class QuizController {
 
     private void showResults() {
         isGameOver = true;
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Results");
-        alert.setContentText("Your result: " + engine.calculateScore() + " from " + engine.getTotal());
-        alert.showAndWait();
+        int total = engine.getTotal();
+        int score = engine.calculateScore();
+        int errors = total - score;
+        double percentage = (double) score / total * 100;
+
+        TextInputDialog dialog = new TextInputDialog(loadLastNameFromResults());
+        dialog.setTitle("Results!");
+        dialog.setHeaderText(String.format("Your result: %d/%d (%.1f%%)", score, total, percentage));
+        dialog.setContentText("Enter your name:");
+
+        dialog.showAndWait().ifPresent(name -> {
+            saveResult(new QuizResult(name, errors, percentage, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))));
+            onHomeClick();
+        });
     }
 
     @FXML
     private void onHomeClick() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm");
-        alert.setHeaderText("Are you sure?");
+        alert.setHeaderText("Want to exit?");
         alert.setContentText("Current progress will be lost.");
 
         alert.showAndWait().ifPresent(response -> {
@@ -179,6 +195,14 @@ public class QuizController {
             if (correctAnswers.contains(i)) {
                 node.getStyleClass().add("answer-right");
             }
+        }
+    }
+
+    private void saveResult(QuizResult result) {
+        try {
+            saveResultToFile(result);
+        } catch (IOException e) {
+            showError("Error while results saving");
         }
     }
 }

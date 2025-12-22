@@ -5,41 +5,59 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER" spacing="20.0" prefWidth="400.0" prefHeight="300.0"
+<VBox alignment="TOP_CENTER" spacing="20.0" prefWidth="750.0" prefHeight="500.0"
       xmlns:fx="http://javafx.com/fxml"
       stylesheets="@style.css"
       fx:controller="com.leverx.certificationquizapp.controller.HomeController"
       style="-fx-background-color: #f4f4f4;">
 
     <padding>
-        <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
+        <Insets top="30.0" right="30.0" bottom="30.0" left="30.0"/>
     </padding>
 
-    <Text text="Certification Quiz" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+    <Text text="Certification Quiz" style="-fx-font-size: 28px; -fx-font-weight: bold;"/>
 
-    <Text text="Load questions" style="-fx-font-size: 12px; -fx-font-weight: bold;"/>
+    <HBox alignment="CENTER" spacing="40.0" VBox.vgrow="ALWAYS">
 
-    <VBox alignment="CENTER" spacing="10.0">
-        <Button text="Load questions from DB" onAction="#onLoadInternal"
-                prefWidth="250.0" style="-fx-padding: 5;"/>
+        <VBox alignment="TOP_CENTER" spacing="20.0" minWidth="300.0">
+            <Text text="Management" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
 
-        <Button text="Choose file on the disk" onAction="#onSelectExternal"
-                prefWidth="250.0" style="-fx-padding: 5;"/>
-    </VBox>
+            <VBox alignment="CENTER" spacing="10.0" style="-fx-background-color: #ffffff; -fx-padding: 15; -fx-background-radius: 10;">
+                <Text text="Load questions" style="-fx-font-size: 12px; -fx-font-weight: bold;"/>
+                <Button text="Load questions from DB" onAction="#onLoadInternal"
+                        prefWidth="250.0" style="-fx-padding: 8;"/>
+                <Button text="Choose file on the disk" onAction="#onSelectExternal"
+                        prefWidth="250.0" style="-fx-padding: 8;"/>
+            </VBox>
 
+            <VBox fx:id="quizModesVBox" alignment="CENTER" spacing="10.0" visible="false"
+                  style="-fx-background-color: #ffffff; -fx-padding: 15; -fx-background-radius: 10;">
+                <Text text="Choose Quiz Mode" style="-fx-font-size: 12px; -fx-font-weight: bold;"/>
+                <Button text="Train mode" onAction="#onSelectTrainMode"
+                        prefWidth="250.0" style="-fx-padding: 10;"/>
+                <Button text="Exam mode" onAction="#onSelectExamMode"
+                        prefWidth="250.0" style="-fx-padding: 10;"/>
+                <CheckBox fx:id="randomOrderCheckBox" text="Shuffle Questions?"
+                          style="-fx-font-size: 12px; -fx-text-fill: #333333;"/>
+            </VBox>
 
-    <VBox fx:id="quizModesVBox" alignment="CENTER"  spacing="10.0" visible="false" >
-        <Text text="Choose Quiz Mode" style="-fx-font-size: 12px; -fx-font-weight: bold;"/>
-        <Button text="Train mode" onAction="#onSelectTrainMode"
-                prefWidth="250.0" style="-fx-padding: 10;"/>
+            <Region VBox.vgrow="ALWAYS" /> <Label fx:id="statusLabel" textFill="GRAY" wrapText="true" alignment="CENTER"/>
+        </VBox>
 
-        <Button text="Exam mode" onAction="#onSelectExamMode"
-                prefWidth="250.0" style="-fx-padding: 10;"/>
+        <VBox alignment="TOP_CENTER" spacing="10.0" HBox.hgrow="ALWAYS">
+            <Label fx:id="resultsLabel" text="Last tries" textFill="GRAY" wrapText="true" alignment="CENTER"/>
+            <TableView fx:id="resultsTable" VBox.vgrow="ALWAYS" prefWidth="400.0">
+                <columns>
+                    <TableColumn fx:id="nameCol" text="Name" prefWidth="120"/>
+                    <TableColumn fx:id="errorsCol" text="Mistakes" prefWidth="70"/>
+                    <TableColumn fx:id="percentCol" text="Score %" prefWidth="70"/>
+                    <TableColumn fx:id="dateCol" text="Date" prefWidth="130"/>
+                </columns>
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                </columnResizePolicy>
+            </TableView>
+        </VBox>
 
-        <CheckBox fx:id="randomOrderCheckBox" text="Shuffle Questions?"
-                  style="-fx-font-size: 12px; -fx-text-fill: #333333;"/>
-    </VBox>
-
-
-    <Label fx:id="statusLabel" textFill="GRAY" />
+    </HBox>
 </VBox>

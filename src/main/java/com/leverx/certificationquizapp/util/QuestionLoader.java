@@ -1,6 +1,8 @@
 package com.leverx.certificationquizapp.util;
 
 import com.leverx.certificationquizapp.model.Question;
+import javafx.stage.FileChooser;
+import javafx.stage.Window;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -14,14 +16,24 @@ public class QuestionLoader {
     private static final String ANSWER_PREFIX = "A:";
     private static final String OPTION_PREFIX = "-";
 
-    public List<Question> loadQuestionsFromFile(File file) throws IOException {
-        List<String> lines = Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
+    final String QUESTIONS_FILE_PATH = "/com/leverx/certificationquizapp/data/quiz.txt";
+
+    public List<Question> loadQuestionsFromFile(Window window) throws IOException {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
+
+        File selectedFile = fileChooser.showOpenDialog(window);
+
+        if (selectedFile == null) {
+            throw new IOException();
+        }
+        List<String> lines = Files.readAllLines(selectedFile.toPath(), StandardCharsets.UTF_8);
         return parseLines(lines);
     }
 
-    public List<Question> loadQuestionsFromResource(String path) throws Exception {
-        try (InputStream is = getClass().getResourceAsStream(path)) {
-            if (is == null) throw new RuntimeException("File not found: " + path);
+    public List<Question> loadQuestionsFromResource() throws Exception {
+        try (InputStream is = getClass().getResourceAsStream(QUESTIONS_FILE_PATH)) {
+            if (is == null) throw new RuntimeException("File not found: " + QUESTIONS_FILE_PATH);
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
                 return parseLines(reader.lines().collect(Collectors.toList()));
             }

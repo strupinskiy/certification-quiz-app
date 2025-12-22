@@ -1,45 +1,83 @@
 package com.leverx.certificationquizapp.controller;
 
 import com.leverx.certificationquizapp.model.Question;
+import com.leverx.certificationquizapp.model.QuizResult;
 import com.leverx.certificationquizapp.strategy.QuizStrategy;
 import com.leverx.certificationquizapp.strategy.impl.ExamQuizStrategy;
 import com.leverx.certificationquizapp.strategy.impl.TrainQuizStrategy;
 import com.leverx.certificationquizapp.util.QuestionLoader;
+import com.leverx.certificationquizapp.util.ResultsLoader;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class HomeController {
 
     @FXML
     private Label statusLabel;
-
+    @FXML
+    private Label resultsLabel;
     @FXML
     private CheckBox randomOrderCheckBox;
-
     @FXML
     private VBox quizModesVBox;
+    @FXML
+    private TableView<QuizResult> resultsTable;
+    @FXML
+    private TableColumn<QuizResult, String> nameCol;
+    @FXML
+    private TableColumn<QuizResult, Integer> errorsCol;
+    @FXML
+    private TableColumn<QuizResult, Double> percentCol;
+    @FXML
+    private TableColumn<QuizResult, String> dateCol;
 
-    private final QuestionLoader loader = new QuestionLoader();
-
-    final String FILE_PATH = "/com/leverx/certificationquizapp/data/quiz.txt";
+    private final QuestionLoader questionLoader = new QuestionLoader();
 
     List<Question> questions;
 
     @FXML
+    public void initialize() {
+        nameCol.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().name()));
+        errorsCol.setCellValueFactory(cellData ->
+                new SimpleObjectProperty<>(cellData.getValue().errors()));
+        percentCol.setCellValueFactory(cellData ->
+                new SimpleObjectProperty<>(cellData.getValue().percentage()));
+        dateCol.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().date()));
+        loadTableData();
+    }
+
+    private void loadTableData() {
+        try {
+            List<QuizResult> results = ResultsLoader.getResultList();
+
+            resultsTable.getItems().setAll(results.stream().limit(10).collect(Collectors.toList()));
+        } catch (Exception e) {
+            resultsTable.setVisible(false);
+            resultsLabel.setText("Error while records loading");
+        }
+    }
+
+
+    @FXML
     private void onLoadInternal() {
         try {
-            questions = loader.loadQuestionsFromResource(FILE_PATH);
+            questions = questionLoader.loadQuestionsFromResource();
             statusLabel.setText("Questions loaded from DB");
             quizModesVBox.setVisible(true);
         } catch (Exception e) {
@@ -49,20 +87,14 @@ public class HomeController {
 
     @FXML
     private void onSelectExternal() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
-
-        File selectedFile = fileChooser.showOpenDialog(statusLabel.getScene().getWindow());
-
-        if (selectedFile != null) {
-            try {
-                questions = loader.loadQuestionsFromFile(selectedFile);
-                statusLabel.setText("Questions loaded from external source");
-                quizModesVBox.setVisible(true);
-            } catch (Exception e) {
-                statusLabel.setText("Error during file loading");
-            }
+        try {
+            questions = questionLoader.loadQuestionsFromFile(statusLabel.getScene().getWindow());
+            statusLabel.setText("Questions loaded from external source");
+            quizModesVBox.setVisible(true);
+        } catch (Exception e) {
+            statusLabel.setText("Error during file loading");
         }
+
     }
 
     private void startQuiz(QuizStrategy strategy) {
