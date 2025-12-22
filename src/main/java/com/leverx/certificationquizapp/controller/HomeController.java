@@ -5,7 +5,6 @@ import com.leverx.certificationquizapp.model.QuizResult;
 import com.leverx.certificationquizapp.strategy.QuizStrategy;
 import com.leverx.certificationquizapp.strategy.impl.ExamQuizStrategy;
 import com.leverx.certificationquizapp.strategy.impl.TrainQuizStrategy;
-import com.leverx.certificationquizapp.util.QuestionLoader;
 import com.leverx.certificationquizapp.util.ResultsLoader;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -22,7 +21,9 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static com.leverx.certificationquizapp.util.QuestionLoader.loadQuestionsFromFile;
+import static com.leverx.certificationquizapp.util.QuestionLoader.loadQuestionsFromResource;
 
 public class HomeController {
 
@@ -39,13 +40,15 @@ public class HomeController {
     @FXML
     private TableColumn<QuizResult, String> nameCol;
     @FXML
+    private TableColumn<QuizResult, String> modeCol;
+    @FXML
+    private TableColumn<QuizResult, Integer> totalCol;
+    @FXML
     private TableColumn<QuizResult, Integer> errorsCol;
     @FXML
     private TableColumn<QuizResult, Double> percentCol;
     @FXML
     private TableColumn<QuizResult, String> dateCol;
-
-    private final QuestionLoader questionLoader = new QuestionLoader();
 
     List<Question> questions;
 
@@ -53,6 +56,10 @@ public class HomeController {
     public void initialize() {
         nameCol.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().name()));
+        modeCol.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().mode()));
+        totalCol.setCellValueFactory(cellData ->
+                new SimpleObjectProperty<>(cellData.getValue().total()));
         errorsCol.setCellValueFactory(cellData ->
                 new SimpleObjectProperty<>(cellData.getValue().errors()));
         percentCol.setCellValueFactory(cellData ->
@@ -66,7 +73,9 @@ public class HomeController {
         try {
             List<QuizResult> results = ResultsLoader.getResultList();
 
-            resultsTable.getItems().setAll(results.stream().limit(10).collect(Collectors.toList()));
+            resultsTable.getItems().setAll(results.stream()
+                    .limit(10)
+                    .toList());
         } catch (Exception e) {
             resultsTable.setVisible(false);
             resultsLabel.setText("Error while records loading");
@@ -77,7 +86,7 @@ public class HomeController {
     @FXML
     private void onLoadInternal() {
         try {
-            questions = questionLoader.loadQuestionsFromResource();
+            questions = loadQuestionsFromResource();
             statusLabel.setText("Questions loaded from DB");
             quizModesVBox.setVisible(true);
         } catch (Exception e) {
@@ -88,7 +97,7 @@ public class HomeController {
     @FXML
     private void onSelectExternal() {
         try {
-            questions = questionLoader.loadQuestionsFromFile(statusLabel.getScene().getWindow());
+            questions = loadQuestionsFromFile(statusLabel.getScene().getWindow());
             statusLabel.setText("Questions loaded from external source");
             quizModesVBox.setVisible(true);
         } catch (Exception e) {

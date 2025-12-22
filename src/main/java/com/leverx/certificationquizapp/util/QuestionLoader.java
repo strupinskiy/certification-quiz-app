@@ -16,9 +16,9 @@ public class QuestionLoader {
     private static final String ANSWER_PREFIX = "A:";
     private static final String OPTION_PREFIX = "-";
 
-    final String QUESTIONS_FILE_PATH = "/com/leverx/certificationquizapp/data/quiz.txt";
+    final static String QUESTIONS_FILE_PATH = "/com/leverx/certificationquizapp/data/quiz.txt";
 
-    public List<Question> loadQuestionsFromFile(Window window) throws IOException {
+    public static List<Question> loadQuestionsFromFile(Window window) throws IOException {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
 
@@ -31,8 +31,8 @@ public class QuestionLoader {
         return parseLines(lines);
     }
 
-    public List<Question> loadQuestionsFromResource() throws Exception {
-        try (InputStream is = getClass().getResourceAsStream(QUESTIONS_FILE_PATH)) {
+    public static List<Question> loadQuestionsFromResource() throws Exception {
+        try (InputStream is = QuestionLoader.class.getResourceAsStream(QUESTIONS_FILE_PATH)) {
             if (is == null) throw new RuntimeException("File not found: " + QUESTIONS_FILE_PATH);
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
                 return parseLines(reader.lines().collect(Collectors.toList()));
@@ -40,7 +40,7 @@ public class QuestionLoader {
         }
     }
 
-    public List<Question> parseLines(List<String> lines) {
+    public static List<Question> parseLines(List<String> lines) {
         List<Question> questions = new ArrayList<>();
         QuestionBuilder builder = new QuestionBuilder();
 
@@ -72,14 +72,14 @@ public class QuestionLoader {
 
     private static String parseQuestionText(String line) {
         String text = line.substring(QUESTION_PREFIX.length()).trim();
-        return text.replaceFirst("^\\s*\\d+\\.\\s*", ""); // Удаляем "1. ", "2. "
+        return text.replaceFirst("^\\s*\\d+\\.\\s*", "");
     }
 
     private static Set<Integer> parseCorrectAnswers(String line) {
         String answersStr = line.substring(ANSWER_PREFIX.length()).trim();
         return Arrays.stream(answersStr.split(","))
                 .map(String::trim)
-                .filter(s -> s.matches("\\d+")) // Проверяем, что это число
+                .filter(s -> s.matches("\\d+"))
                 .map(Integer::parseInt)
                 .collect(Collectors.toSet());
     }

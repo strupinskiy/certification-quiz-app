@@ -145,6 +145,7 @@ public class QuizController {
         int total = engine.getTotal();
         int score = engine.calculateScore();
         int errors = total - score;
+        String mode = strategy.getModeName();
         double percentage = (double) score / total * 100;
 
         TextInputDialog dialog = new TextInputDialog(loadLastNameFromResults());
@@ -153,7 +154,9 @@ public class QuizController {
         dialog.setContentText("Enter your name:");
 
         dialog.showAndWait().ifPresent(name -> {
-            saveResult(new QuizResult(name, errors, percentage, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))));
+            saveResult(new QuizResult(name, mode, total, errors, percentage,
+                    LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
+            );
             onHomeClick();
         });
     }

@@ -48,7 +48,9 @@
             <Label fx:id="resultsLabel" text="Last tries" textFill="GRAY" wrapText="true" alignment="CENTER"/>
             <TableView fx:id="resultsTable" VBox.vgrow="ALWAYS" prefWidth="400.0">
                 <columns>
-                    <TableColumn fx:id="nameCol" text="Name" prefWidth="120"/>
+                    <TableColumn fx:id="nameCol" text="Name" prefWidth="100"/>
+                    <TableColumn fx:id="modeCol" text="Mode" prefWidth="60"/>
+                    <TableColumn fx:id="totalCol" text="Total" prefWidth="70"/>
                     <TableColumn fx:id="errorsCol" text="Mistakes" prefWidth="70"/>
                     <TableColumn fx:id="percentCol" text="Score %" prefWidth="70"/>
                     <TableColumn fx:id="dateCol" text="Date" prefWidth="130"/>

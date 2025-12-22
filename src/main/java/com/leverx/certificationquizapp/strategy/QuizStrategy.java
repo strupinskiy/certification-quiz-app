@@ -6,4 +6,6 @@ public interface QuizStrategy {
     boolean hasNext(int currentIndex, int totalCount);
 
     String getProgressStatus(int currentIndex, int totalCount);
+
+    String getModeName();
 }
